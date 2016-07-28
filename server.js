@@ -23,6 +23,11 @@ const options = {
 		database: process.env.SEQUELIZE_DATABASE,
 		dialect: process.env.SEQUELIZE_DIALECT,
 	},
+	jsonapi: {
+		meta: {
+			version: require('./package.json').version
+		}
+	},
 	hapiSwagger: {
 		info: {
 			title: 'Burger API Documentation',
@@ -33,8 +38,10 @@ const options = {
 
 // Load plugins and start server
 server.register([
-	{ register: require('./lib/sequelize'), options: options.sequelize },
 	{ register: require('hapi-qs') },
+
+	{ register: require('./lib/sequelize'), options: options.sequelize },
+	{ register: require('./lib/jsonapi'), options: options.jsonapi },
 
 	{ register: require('hapi-swagger'), options: options.hapiSwagger },
 	{ register: require('inert') },
