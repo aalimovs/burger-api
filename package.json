@@ -19,6 +19,7 @@
     "hoek": "^4.0.2",
     "inert": "^4.0.1",
     "joi": "^9.0.4",
+    "jsonapi-serializer": "^3.3.0",
     "lodash": "^4.14.0",
     "pg": "^6.0.3",
     "sequelize": "^3.23.6",
