@@ -34,6 +34,7 @@ const options = {
 // Load plugins and start server
 server.register([
 	{ register: require('./lib/sequelize'), options: options.sequelize },
+	{ register: require('hapi-qs') },
 
 	{ register: require('hapi-swagger'), options: options.hapiSwagger },
 	{ register: require('inert') },
