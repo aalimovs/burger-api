@@ -7,5 +7,26 @@
     "type": "git",
     "url": "git+https://github.com/aalimovs/burger-api.git"
   },
-  "author": "Alexander Alimovs"
+  "dependencies": {
+    "bluebird": "^3.4.1",
+    "boom": "^3.2.2",
+    "dotenv": "^2.0.0",
+    "glob": "^7.0.5",
+    "hapi": "^13.5.0",
+    "hapi-auth-jwt2": "^7.0.1",
+    "hapi-swagger": "^6.2.0",
+    "hoek": "^4.0.2",
+    "inert": "^4.0.1",
+    "joi": "^9.0.4",
+    "lodash": "^4.14.0",
+    "pg": "^6.0.3",
+    "sequelize": "^3.23.6",
+    "vision": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^5.2.2"
+  }
 }
