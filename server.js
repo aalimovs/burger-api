@@ -43,6 +43,8 @@ server.register([
 	{ register: require('./lib/sequelize'), options: options.sequelize },
 	{ register: require('./lib/jsonapi'), options: options.jsonapi },
 
+	{ register: require('./routes/places') },
+
 	{ register: require('hapi-swagger'), options: options.hapiSwagger },
 	{ register: require('inert') },
 	{ register: require('vision') },
