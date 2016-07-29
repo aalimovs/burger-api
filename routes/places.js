@@ -20,6 +20,10 @@ exports.register = function (server, options, next) {
 		method: 'POST',
 		path: '/places',
 		config: internals.handlers.createPlace,
+	}, {
+		method: 'DELETE',
+		path: '/places/{id}',
+		config: internals.handlers.deletePlace,
 	}]);
 
 	return next();
@@ -104,7 +108,7 @@ internals.handlers.createPlace = {
 	plugins: {
 		'hapi-swagger': {
 			responses: {
-				200: { description: 'Success' },
+				204: { description: 'Success' },
 				400: { description: 'Bad Request' },
 			},
 		},
@@ -127,6 +131,36 @@ internals.handlers.createPlace = {
 					return reply(reply(Boom.badImplementation('failed to create a new place')));
 				}
 				return reply().code(204);
+			})
+			.catch((error) => reply(Boom.badImplementation(error)));
+	},
+};
+
+internals.handlers.deletePlace = {
+	tags: ['api'],
+	description: 'Deletes a place',
+	notes: 'Deletes a place by the id passed in the path',
+	plugins: {
+		'hapi-swagger': {
+			responses: {
+				204: { description: 'Success' },
+				404: { description: 'Not Found' },
+				400: { description: 'Bad Request' },
+			},
+		},
+	},
+	validate: {
+		params: {
+			id: Joi.number().integer().min(1).description('place id'),
+		},
+	},
+	handler: function (request, reply) {
+		request.server.plugins.sequelize.db.Place.findById(request.params.id)
+			.then((place) => {
+				if (!place) {
+					return reply(Boom.notFound());
+				}
+				place.destroy().then(() => reply().code(204));
 			})
 			.catch((error) => reply(Boom.badImplementation(error)));
 	},
