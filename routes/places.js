@@ -115,8 +115,13 @@ internals.handlers.createPlace = {
 	},
 	validate: {
 		payload: {
-			name: Joi.string().required().example('Best Burgers').description('name of the place'),
-			location: Joi.string().required().example('56.960725,24.172814').description('location of the place'),
+			data: Joi.object().keys({
+				type: Joi.string(),
+				attributes: Joi.object().keys({
+					name: Joi.string().required().example('Best Burgers').description('name of the place'),
+					location: Joi.string().required().example('56.960725,24.172814').description('location of the place'),
+				}),
+			}),
 		},
 	},
 	handler: function (request, reply) {
