@@ -126,8 +126,8 @@ internals.handlers.createPlace = {
 	},
 	handler: function (request, reply) {
 		const options = {
-			name: request.payload.name,
-			location: request.payload.location,
+			name: request.payload.data.attributes.name,
+			location: request.payload.data.attributes.location,
 		};
 
 		request.server.plugins.sequelize.db.Place.create(options)
