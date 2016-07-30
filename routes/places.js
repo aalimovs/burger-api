@@ -24,6 +24,10 @@ exports.register = function (server, options, next) {
 		method: 'DELETE',
 		path: '/places/{id}',
 		config: internals.handlers.deletePlace,
+	}, {
+		method: 'PATCH',
+		path: '/places/{id}',
+		config: internals.handlers.updatePlace,
 	}]);
 
 	return next();
@@ -166,6 +170,58 @@ internals.handlers.deletePlace = {
 					return reply(Boom.notFound());
 				}
 				place.destroy().then(() => reply().code(204));
+			})
+			.catch((error) => reply(Boom.badImplementation(error)));
+	},
+};
+
+internals.handlers.updatePlace = {
+	tags: ['api'],
+	description: 'Update a place',
+	notes: 'Updates a place by the id passed in the path and with the attributes passed in the body',
+	plugins: {
+		'hapi-swagger': {
+			responses: {
+				200: { description: 'Success' },
+				404: { description: 'Not Found' },
+				400: { description: 'Bad Request' },
+			},
+		},
+	},
+	validate: {
+		params: {
+			id: Joi.number().integer().min(1).description('place id'),
+		},
+		payload: {
+			data: Joi.object().keys({
+				type: Joi.string().valid('places'),
+				id: Joi.number().integer().min(1).description('place id'),
+				attributes: Joi.object().keys({
+					name: Joi.string().optional().description('name of the place'),
+					location: Joi.string().optional().description('location of the place'),
+				}),
+			}),
+		},
+	},
+	handler: function (request, reply) {
+		if(request.params.id !== request.payload.data.id) {
+			return reply(Boom.badRequest('IDs passed in both path and body must match'))
+		}
+
+		request.server.plugins.sequelize.db.Place.findById(request.params.id)
+			.then((place) => {
+				if (!place) {
+					return reply(Boom.notFound());
+				}
+				place.updateAttributes(request.payload.data.attributes).then(() => {
+					request.server.plugins.sequelize.db.Place.findById(request.params.id)
+						.then((place) => {
+							if (!place) {
+								return reply(Boom.notFound());
+							}
+							return reply.jsonapi(place);
+						})
+				});
 			})
 			.catch((error) => reply(Boom.badImplementation(error)));
 	},
