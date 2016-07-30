@@ -112,7 +112,7 @@ internals.handlers.createPlace = {
 	plugins: {
 		'hapi-swagger': {
 			responses: {
-				204: { description: 'Success' },
+				200: { description: 'Success' },
 				400: { description: 'Bad Request' },
 			},
 		},
