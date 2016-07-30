@@ -49,7 +49,7 @@ internals.handlers.getPlaces = {
 	},
 	handler: function (request, reply) {
 		const options = {
-			order: 'createdAt DESC',
+			order: '"createdAt" DESC',
 		};
 
 		Object.assign(options, request.app.pagination);
