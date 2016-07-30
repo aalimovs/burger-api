@@ -135,7 +135,7 @@ internals.handlers.createPlace = {
 				if (!place) {
 					return reply(reply(Boom.badImplementation('failed to create a new place')));
 				}
-				return reply().code(204);
+				return reply.jsonapi(place);
 			})
 			.catch((error) => reply(Boom.badImplementation(error)));
 	},
