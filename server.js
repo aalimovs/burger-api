@@ -44,6 +44,8 @@ server.register([
 	{ register: require('./lib/jsonapi'), options: options.jsonapi },
 
 	{ register: require('./routes/places') },
+	{ register: require('./routes/posts') },
+	{ register: require('./routes/dev') },
 
 	{ register: require('hapi-swagger'), options: options.hapiSwagger },
 	{ register: require('inert') },
