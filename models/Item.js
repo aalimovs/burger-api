@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-	return sequelize.define('User', {
+	return sequelize.define('Item', {
 		name: DataTypes.STRING,
-		email: DataTypes.STRING,
-		picture: DataTypes.STRING,
+		image: DataTypes.STRING,
+		place: DataTypes.STRING,
 	});
 };
